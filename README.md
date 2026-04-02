@@ -58,7 +58,7 @@ You only need **one file** — either `filler.ps1` (Windows) or `filler.sh` (Lin
 ### Option B — Clone the whole repository (if you have Git installed)
 
 ```bash
-git clone https://github.com/TWeinlich/Kindle-Disk-Filler.git
+git clone https://github.com/tobiwein/Kindle-Disk-Filler.git
 ```
 
 Then copy the relevant script to your Kindle.
