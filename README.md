@@ -51,10 +51,9 @@ You only need **one file** — either `filler.ps1` (Windows) or `filler.sh` (Lin
 1. Click the file you need:
    - Windows: [`filler.ps1`](filler.ps1)
    - Linux / macOS: [`filler.sh`](filler.sh)
-2. On the file page, click the **"Raw"** button (top right of the code view).
-3. Your browser will show the raw script text. Save it using **File → Save As** (or `Ctrl + S` / `Cmd + S`).  
-   Make sure the filename stays exactly `filler.ps1` or `filler.sh` — some browsers may add `.txt` at the end, which you should remove.
-4. Copy the saved file to the root of your Kindle (see [Prerequisites](#-prerequisites) below).
+2. On the file page, click the **download button** (the arrow pointing downward ⬇, in the top-right corner of the code view, right next to the "Raw" button).  
+   The file will be saved directly to your Downloads folder with the correct filename.
+3. Copy the saved file to the root of your Kindle (see [Prerequisites](#-prerequisites) below).
 
 ### Option B — Clone the whole repository (if you have Git installed)
 
