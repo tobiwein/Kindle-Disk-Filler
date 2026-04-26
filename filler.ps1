@@ -1,4 +1,4 @@
-# filler.ps1 — Fill available disk space with labeled chunk files.
+# filler.ps1 - Fill available disk space with labeled chunk files.
 # Supports Windows, including USB drives and MTP-mounted devices
 # (phones, Kindles, cameras) accessible via a file system path.
 #
@@ -28,7 +28,7 @@ $ChunksSubdir  = "filler_chunks"  # Sub-folder created inside the target directo
 function Get-AvailableMB {
     param([string]$Path)
 
-    # Use the .NET DirectoryInfo class — works for regular drives and UNC/FUSE
+    # Use the .NET DirectoryInfo class - works for regular drives and UNC/FUSE
     # paths alike. DriveInfo only works for lettered drives.
     $dir = [System.IO.DirectoryInfo]::new($Path)
 
@@ -46,7 +46,7 @@ function Get-AvailableMB {
         if ($vol) {
             return [math]::Floor($vol.FreeSpace / 1MB)
         }
-        Write-Warning "Could not determine available space — WMI query returned nothing."
+        Write-Warning "Could not determine available space - WMI query returned nothing."
         return 0
     }
 }
@@ -116,10 +116,10 @@ function Get-NextChunkIndex {
 
 # Draws a single in-place progress bar for the overall write operation.
 # Uses a carriage return to overwrite the line on each update (no scrolling).
-#   $Written       — MB written so far across all chunks
-#   $Total         — total MB to write
-#   $ChunkNum      — current chunk number (1-based)
-#   $TotalChunks   — total number of chunks
+#   $Written       - MB written so far across all chunks
+#   $Total         - total MB to write
+#   $ChunkNum      - current chunk number (1-based)
+#   $TotalChunks   - total number of chunks
 function Write-ProgressBar {
     param(
         [int]$Written,
@@ -135,19 +135,19 @@ function Write-ProgressBar {
     $bar = ([string][char]0x2588) * $filled + ([string][char]0x2591) * $empty
 
     # `r (carriage return) moves back to start of line, rewriting it in-place.
-    [Console]::Write("`r  [$bar] $Written MB / $Total MB ($pct%)  — chunk $ChunkNum/$TotalChunks   ")
+    [Console]::Write("`r  [$bar] $Written MB / $Total MB ($pct%)  - chunk $ChunkNum/$TotalChunks   ")
 }
 
 # Writes a zero-filled file 1 MB at a time via a FileStream, updating the
 # overall progress bar after each megabyte. Using a FileStream (instead of
 # WriteAllBytes) lets us write incrementally so progress is visible in real
 # time and Ctrl+C is handled cleanly.
-#   $FilePath      — destination file path
-#   $SizeMB        — chunk size in MB
-#   $OffsetMB      — MB already written before this chunk (for cumulative display)
-#   $TotalMB       — total MB to write across all chunks
-#   $ChunkNum      — current chunk number (for the counter in the bar)
-#   $TotalChunks   — total number of chunks
+#   $FilePath      - destination file path
+#   $SizeMB        - chunk size in MB
+#   $OffsetMB      - MB already written before this chunk (for cumulative display)
+#   $TotalMB       - total MB to write across all chunks
+#   $ChunkNum      - current chunk number (for the counter in the bar)
+#   $TotalChunks   - total number of chunks
 function Write-ChunkFile {
     param(
         [string]$FilePath,
@@ -206,7 +206,7 @@ Write-Host "Available space  : $AvailableMB MB"
 # Notify user if existing chunk files are present (they will not be touched).
 $ExistingCount = Get-ExistingChunkCount -Dir $ChunksPath
 if ($ExistingCount -gt 0) {
-    Write-Host "Existing chunks  : $ExistingCount file(s) already present — new chunks will be appended."
+    Write-Host "Existing chunks  : $ExistingCount file(s) already present - new chunks will be appended."
 }
 Write-Host ""
 
@@ -227,12 +227,12 @@ switch ($Choice) {
         if ($input -match '^\d+$' -and [int]$input -gt 0) {
             $ReserveMB = [int]$input
         } else {
-            Write-Host "Invalid input — using default: 50 MB"
+            Write-Host "Invalid input - using default: 50 MB"
             $ReserveMB = 50
         }
     }
     default {
-        Write-Host "Invalid choice — using default: 50 MB"
+        Write-Host "Invalid choice - using default: 50 MB"
         $ReserveMB = 50
     }
 }
@@ -252,7 +252,7 @@ if ($FillMB -le 0) {
 }
 
 # Break the fill target into standard denominations (100 MB / 10 MB / 1 MB)
-# so that every chunk has a predictable, round size — no odd remainders.
+# so that every chunk has a predictable, round size - no odd remainders.
 $NLarge      = [math]::Floor($FillMB / $ChunkLargeMB)
 $NMedium     = [math]::Floor(($FillMB % $ChunkLargeMB) / $ChunkMediumMB)
 $NSmall      = $FillMB % $ChunkMediumMB
@@ -271,7 +271,7 @@ Write-Host ""
 
 $Confirm = Read-Host "Proceed? [y/N]"
 if ($Confirm -notmatch '^[Yy]$') {
-    Write-Host "Aborted — no files were written."
+    Write-Host "Aborted - no files were written."
     exit 0
 }
 
@@ -319,7 +319,7 @@ try {
     # Delete the partial file to avoid leaving corrupt data on the device.
     if ($null -ne $CurrentFile -and (Test-Path $CurrentFile)) {
         Write-Host ""
-        Write-Host "Interrupted — removing incomplete chunk: $(Split-Path $CurrentFile -Leaf)"
+        Write-Host "Interrupted - removing incomplete chunk: $(Split-Path $CurrentFile -Leaf)"
         Remove-Item $CurrentFile -Force
         Write-Host "Aborted."
         exit 1
